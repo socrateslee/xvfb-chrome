@@ -24,7 +24,7 @@ sudo docker run --rm -it \
                 -v $(pwd):/workdir --workdir /workdir \
                 --cap-add=SYS_ADMIN \
                 socrateslee/xvfb-chrome:latest\
-                --headless
+                --headless <URL>
 ```
 
 Note that `--cap-add=SYS_ADMIN` is needed to run chrome with a non-root user.
@@ -52,6 +52,17 @@ sudo docker run --rm -it \
                 socrateslee/xvfb-chrome:latest\
                 --wayland --remote-debugging-port=9222 --disable-gpu
 ```
+- Map fonts directory to container(you can download fonts to \<YOUR_FONTS_DIR\>):
+
+```
+sudo docker run --rm -it \
+                -v <YOUR_FONTS_DIR>:/home/chrome/.fonts \
+                -v $(pwd):/workdir --workdir /workdir \
+                --cap-add=SYS_ADMIN \
+                -p 9222:9222 \
+                socrateslee/xvfb-chrome:latest\
+                --headless=new --print-to-pdf <URL>
+```
 
 ## Entrypoint script options
 
@@ -70,4 +81,4 @@ Some verions of chrome may occur the following error and chrome process will han
 [0707/070947.640877:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
 ```
 
-Using `--wayland` option and append `--disable-gpu` can reduce the occurences of the error.
+Using `--wayland` option and append `--disable-gpu` can sometimes reduce the occurences of the error.
