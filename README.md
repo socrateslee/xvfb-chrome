@@ -81,4 +81,7 @@ Some verions of chrome may occur the following error and chrome process will han
 [0707/070947.640877:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
 ```
 
-Using `--wayland` option and append `--disable-gpu` can sometimes reduce the occurences of the error.
+The following method may help reduce the occurences of the error:
+
+- Using `--wayland` option and append `--disable-gpu`.
+- Append `--disable-blink-features=ComputePressure`.
