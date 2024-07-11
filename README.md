@@ -66,11 +66,14 @@ sudo docker run --rm -it \
 
 ## Entrypoint script options
 
-The entrypoint script support several special options:
+The entrypoint script(`/usr/local/bin/chrome.sh`) support several special options:
 
 - `--xvfb-run`: Start chrome using xvfb-run.
 - `--wayland`: Start chrome using wayland. Will add --enable-features=UseOzonePlatform and --ozone-platform=wayland to chrome command line.
 - `--remote-debugging-port=<port>`: The option is passed to chrome command line. But the entrypoint script will also fork a socat process to map the port from 127.0.0.1 to 0.0.0.0. So you can always connect to the port from host.
+- `--dbus` Start a dbus daemon process.
+
+Other options are passed to chrome command line.
 
 ## Note
 
