@@ -20,6 +20,16 @@ for arg in "$@"; do
         remote_debugging_port="${arg#*=}"
         other_args+=("$arg")
         ;;
+    --dbus)
+        if ! pgrep -x "dbus-daemon" > /dev/null
+        then
+            sudo rm /run/dbus/pid
+            sudo rm /run/dbus/system_bus_socket
+            sudo dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
+        else
+            echo "dbus-daemon already running"
+        fi
+        ;;
     *)
         other_args+=("$arg")
         ;;
