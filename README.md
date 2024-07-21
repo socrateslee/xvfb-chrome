@@ -75,16 +75,27 @@ The entrypoint script(`/usr/local/bin/chrome.sh`) support several special option
 
 Other options are passed to chrome command line.
 
-## Note
+## Note on cpufreq/scaling_cur_freq error
 
-Some verions of chrome may occur the following error and chrome process will hang:
+Sometimes the running container may occur the following error and chrome process will hang:
 
 ```
 [0707/070947.640825:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
 [0707/070947.640877:ERROR:file_io_posix.cc(145)] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
 ```
 
-The following method may help reduce the occurences of the error:
+In most of the cases, the error is caused by limited space of /dev/shm, the error could be avoided by appending `--disable-dev-shm-usage`. For example
+
+```
+sudo docker run --rm -it \
+                -v $(pwd):/workdir --workdir /workdir \
+                --cap-add=SYS_ADMIN \
+                -p 9222:9222 \
+                socrateslee/xvfb-chrome:latest\
+                --xvfb-run --remote-debugging-port=9222 --disable-dev-shm-usage
+```
+
+For other cases, the following method may help reduce the occurences of the error:
 
 - Using `--wayland` option and append `--disable-gpu`.
 - Append `--disable-blink-features=ComputePressure`.
